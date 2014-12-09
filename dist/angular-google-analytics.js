@@ -1,6 +1,6 @@
 /**
  * Angular Google Analytics - Easy tracking for your AngularJS application
- * @version v0.0.5 - 2014-09-16
+ * @version v0.0.5 - 2014-12-09
  * @link http://github.com/revolunet/angular-google-analytics
  * @author Julien Bouquillon <julien@revolunet.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -237,7 +237,12 @@ angular.module('angular-google-analytics', [])
                     $window._gaq.push(['_trackEvent', category, action, label, value]);
                     this._log('trackEvent', arguments);
                 } else if ($window.ga) {
-                    $window.ga('send', 'event', category, action, label, value);
+                    if (angular.isArray(accountId)) {
+                        accountId.forEach(function (trackerObj) {
+                            $window.ga(trackerObj.name + 'send', 'event', category, action, label, value);
+                        });
+                    }
+                    
                     this._log('event', arguments);
                 }
 

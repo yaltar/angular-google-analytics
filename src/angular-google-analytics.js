@@ -230,7 +230,12 @@ angular.module('angular-google-analytics', [])
                     $window._gaq.push(['_trackEvent', category, action, label, value]);
                     this._log('trackEvent', arguments);
                 } else if ($window.ga) {
-                    $window.ga('send', 'event', category, action, label, value);
+                    if (angular.isArray(accountId)) {
+                        accountId.forEach(function (trackerObj) {
+                            $window.ga(trackerObj.name + 'send', 'event', category, action, label, value);
+                        });
+                    }
+                    
                     this._log('event', arguments);
                 }
 
