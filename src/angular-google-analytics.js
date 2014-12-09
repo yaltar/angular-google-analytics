@@ -232,8 +232,10 @@ angular.module('angular-google-analytics', [])
                 } else if ($window.ga) {
                     if (angular.isArray(accountId)) {
                         accountId.forEach(function (trackerObj) {
-                            $window.ga(trackerObj.name + 'send', 'event', category, action, label, value);
+                            $window.ga(trackerObj.name + '.send', 'event', category, action, label, value);
                         });
+                    }else {
+                        window.ga('send', 'event', category, action, label, value);
                     }
                     
                     this._log('event', arguments);
